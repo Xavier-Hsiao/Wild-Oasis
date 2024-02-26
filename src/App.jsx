@@ -20,7 +20,11 @@ function App() {
             <div>
               <Heading as="h2">Check in and out</Heading>
               <Button onClick={() => alert("Check in baby!")}>Check in</Button>
-              <Button onClick={() => alert("Check out baby!")}>
+              <Button
+                variation="secondary"
+                size="small"
+                onClick={() => alert("Check out baby!")}
+              >
                 Check out
               </Button>
             </div>
