@@ -39,10 +39,6 @@ const router = createBrowserRouter([
         element: <Cabins />,
       },
       {
-        path: "login",
-        element: <Login />,
-      },
-      {
         path: "settings",
         element: <Settings />,
       },
@@ -50,11 +46,16 @@ const router = createBrowserRouter([
         path: "users",
         element: <Users />,
       },
-      {
-        path: "*",
-        element: <PageNotFound />,
-      },
     ],
+  },
+  // 👇 Pages below does not apply AppLayout
+  {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "*",
+    element: <PageNotFound />,
   },
 ]);
 
