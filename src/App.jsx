@@ -13,6 +13,8 @@ import Users from "./pages/Users";
 import AppLayout from "./pages/AppLayout";
 import PageNotFound from "./pages/PageNotFound";
 import GlobalStyles from "./styles/GlobalStyles";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const router = createBrowserRouter([
   {
@@ -59,11 +61,24 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+    },
+  },
+});
+
 export default function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools
+        initialIsOpen={false}
+        buttonPosition={"bottom-left"}
+        position={"bottom"}
+      />
       <GlobalStyles />
       <RouterProvider router={router}></RouterProvider>
-    </>
+    </QueryClientProvider>
   );
 }

@@ -7,11 +7,15 @@ function Cabins() {
   useEffect(() => {
     getCabins().then((data) => console.log(data));
   }, []);
-  
+
   return (
     <Row type="horizontal">
       <Heading as="h1">All cabins</Heading>
       <p>TEST</p>
+      <img
+        src="https://wzxnyemusgtrrgzqcjtg.supabase.co/storage/v1/object/public/cabine_images/cabin-001.jpg"
+        alt=""
+      />
     </Row>
   );
 }
