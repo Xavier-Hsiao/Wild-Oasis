@@ -15,6 +15,7 @@ import PageNotFound from "./pages/PageNotFound";
 import GlobalStyles from "./styles/GlobalStyles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
@@ -79,6 +80,27 @@ export default function App() {
       />
       <GlobalStyles />
       <RouterProvider router={router}></RouterProvider>
+
+      <Toaster
+        position="top-center"
+        gutter={12}
+        containerStyle={{ margin: "8px" }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 5000,
+          },
+          style: {
+            background: "var(--color-grey-0)",
+            color: "var(--color-grey-700",
+            fontSize: "16px",
+            maxWidth: "500px",
+            padding: "16px 24px",
+          },
+        }}
+      />
     </QueryClientProvider>
   );
 }
