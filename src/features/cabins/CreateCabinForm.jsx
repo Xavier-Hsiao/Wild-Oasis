@@ -37,13 +37,13 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   const { errors } = formState;
 
   function onSubmit(data) {
-    // Pass image to databases 
+    // Pass image to databases
     mutate(
       isEditSession
-        // data.image is string
-        ? { ...data, image: data.image }
-        // data.image[0] is object
-        : { ...data, image: data.image[0] }
+        ? // data.image is string
+          { ...data, image: data.image, id: editId }
+        : // data.image[0] is object
+          { ...data, image: data.image[0] }
     );
   }
 
