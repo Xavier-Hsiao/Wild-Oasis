@@ -3,6 +3,10 @@ import { formatCurrency } from "../../utils/helpers";
 import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
+import { HiPencil } from "react-icons/hi";
+import { HiSquare2Stack } from "react-icons/hi2";
+import { HiTrash } from "react-icons/hi";
+import { useCreateCabin } from "./useCreateCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -44,6 +48,7 @@ const Discount = styled.div`
 `;
 
 export default function CabinRow({ cabin }) {
+  const { isLoading: isCreating, createCabin } = useCreateCabin();
   const {
     max_capacity: maxCapacity,
     regular_price: regularPrice,
@@ -51,7 +56,19 @@ export default function CabinRow({ cabin }) {
     discount,
     image,
     id: cabinId,
+    description,
   } = cabin;
+
+  function handleDuplicate() {
+    createCabin({
+      name: `Copy of ${name}`,
+      max_capacity: maxCapacity,
+      regular_price: regularPrice,
+      discount,
+      image,
+      description,
+    });
+  }
 
   const [showForm, setShowForm] = useState(false);
   // Custom hook with React Query
@@ -70,10 +87,15 @@ export default function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div>
-          <button onClick={() => deleteCabin(cabinId)} disabled={isPending}>
-            Delete
+          <button onClick={handleDuplicate} disabled={isCreating}>
+            <HiSquare2Stack />
           </button>
-          <button onClick={() => setShowForm((state) => !state)}>Edit</button>
+          <button onClick={() => deleteCabin(cabinId)} disabled={isPending}>
+            <HiTrash />
+          </button>
+          <button onClick={() => setShowForm((state) => !state)}>
+            <HiPencil />
+          </button>
         </div>
       </TableRow>
       {showForm && <CreateCabinForm cabinToEdit={cabin} />}

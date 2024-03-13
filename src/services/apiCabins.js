@@ -14,7 +14,11 @@ export async function getCabins() {
 export async function createCabin(newCabin) {
   // https://wzxnyemusgtrrgzqcjtg.supabase.co/storage/v1/object/public/cabine_images/cabin-001.jpg
   const { image, ...cabinData } = newCabin;
-  const { imageName, imagePath } = await uploadImage(image);
+  // Check duplicate or create a new cabin, addressing image
+  let { imageName, imagePath } =
+    typeof image === "string"
+      ? { imageName: image.split("/").pop(), imagePath: image }
+      : await uploadImage(image);
 
   // Create a new cabin
   const { data, error } = await supabase
