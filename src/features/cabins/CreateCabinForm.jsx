@@ -30,15 +30,8 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         )
       : createCabin(
           { ...data, image: data.image[0] },
-          { onSuccess: (data) => reset(data) }
+          { onSuccess: () => reset() }
         );
-    // mutate(
-    //   isEditSession
-    //     ? // data.image is string
-    //       { ...data, image: data.image, id: editId }
-    //     : // data.image[0] is object
-    //       { ...data, image: data.image[0] }
-    // );
   }
 
   return (
