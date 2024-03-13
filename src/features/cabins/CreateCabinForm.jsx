@@ -18,7 +18,8 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
     mutationFn: isEditSession ? updateCabin : createCabin,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data);
       toast.success(
         isEditSession
           ? "Cabin updated successfully"
@@ -26,7 +27,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       );
       // So new cabin appears in UI without manual refresh
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
-      reset();
+      reset(data);
     },
     // Error threw by createCabin api
     onError: (err) => {
