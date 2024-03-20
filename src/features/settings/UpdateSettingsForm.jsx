@@ -18,15 +18,15 @@ function UpdateSettingsForm() {
 
   if (isLoading) return <Spinner />;
 
-  function handleUpdate(e, field) {
-    const { value } = e.target;
+  function handleUpdate(e) {
+    const { value, id, defaultValue } = e.target;
 
-    if (!value) return;
+    if (!value || !id || defaultValue === value) return;
 
-    console.log({ [field]: value });
+    console.log({ [id]: value });
 
     // Object Computed Property Names
-    updateSetting({ [field]: value });
+    updateSetting({ [id]: value });
   }
 
   return (
@@ -34,9 +34,10 @@ function UpdateSettingsForm() {
       <FormRow label="Minimum nights/booking">
         <Input
           type="number"
-          id="min-nights"
+          id="min_booking_length"
           defaultValue={minBookingLength}
-          onBlur={(e) => handleUpdate(e, "min_booking_length")}
+          disabled={isUpdating}
+          onBlur={(e) => handleUpdate(e)}
         />
       </FormRow>
       <FormRow label="Maximum nights/booking">

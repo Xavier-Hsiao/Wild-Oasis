@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { useCreateCabin } from "./useCreateCabin";
 import { useUpdateCabin } from "./useUpdateCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { id: editId, ...editValues } = cabinToEdit;
   const isEditSession = Boolean(editId);
   const { register, handleSubmit, reset, getValues, formState } = useForm({
@@ -26,16 +26,29 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       ? updateCabin(
           { ...data, image: data.image, id: editId },
           // Can not use "reset" in custom hook
-          { onSuccess: (data) => reset(data) }
+          {
+            onSuccess: (data) => {
+              reset(data);
+              onCloseModal?.();
+            },
+          }
         )
       : createCabin(
           { ...data, image: data.image[0] },
-          { onSuccess: () => reset() }
+          {
+            onSuccess: () => {
+              reset();
+              onCloseModal?.();
+            },
+          }
         );
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -110,7 +123,12 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button
+          variation="secondary"
+          type="reset"
+          // If onCloseModal prop is undefined then it will not execute
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isCreating || isUpdating}>
